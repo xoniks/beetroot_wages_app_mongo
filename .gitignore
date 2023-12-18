@@ -6,9 +6,10 @@ __pycache__/
 # C extensions
 *.so
 *.csv
-
+.streamlit/
 # Distribution / packaging
 .Python
+.streamlit/
 build/
 develop-eggs/
 dist/
