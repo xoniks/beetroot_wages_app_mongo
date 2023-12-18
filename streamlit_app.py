@@ -1,18 +1,39 @@
 import streamlit as st
 import pandas as pd
-from pymongo import MongoClient 
+import pymongo
 from io import StringIO
 
 
 #connection to MongoDB database
-client = MongoClient('mongodb://localhost:27017')
+#client = MongoClient('mongodb://localhost:27017')
+
+
+
+@st.cache_resource
+def init_connection():
+    try:
+        return pymongo.MongoClient(host=st.secrets['mongo'])
+    except pymongo.errors.ServerSelectionTimeoutError as e:
+        st.error(f"Failed to connect to MongoDB: {e}")
+        raise e
+
+client = init_connection()
 db = client['sample_company_db']
 employees_collection = db['employees']
 wages_collection = db['wages']
-
 #####
 #streamlit app
 st.title('Wages Streamlit App')
+
+# def get_next_employee_id():
+    # sequence_doc = db.counters.find_one_and_update(
+    #     {'_id':'employee_id'},
+    #     {'$inc':{'seq':1}},
+    #     upsert=True,
+    #     return_document=True
+    # )
+
+
 
 #employee information
 st.subheader('Register Employees')
