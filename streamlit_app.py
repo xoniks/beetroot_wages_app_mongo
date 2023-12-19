@@ -12,7 +12,7 @@ from io import StringIO
 @st.cache_resource
 def init_connection():
     try:
-        return pymongo.MongoClient(**st.secrets['mongo'])
+        return pymongo.MongoClient(st.secrets['mongo']['url'])
     except pymongo.errors.ServerSelectionTimeoutError as e:
         st.error(f"Failed to connect to MongoDB: {e}")
         raise e
